@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="org.apache.felix.ipojo"
+       xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd" >
+
+  <!-- rmi:// -->
+  <instance component="com.peergreen.jndi.internal.builtin.jre.ObjectFactoryDelegate"
+            name="rmi-url-context-factory">
+    <property name="osgi.jndi.url.scheme" value="rmi" />
+    <property name="object.factory.classname" value="com.sun.jndi.url.rmi.rmiURLContextFactory" />
+  </instance>
+
+  <!-- dns:// -->
+  <instance component="com.peergreen.jndi.internal.builtin.jre.ObjectFactoryDelegate"
+            name="dns-url-context-factory">
+    <property name="osgi.jndi.url.scheme" value="dns" />
+    <property name="object.factory.classname" value="com.sun.jndi.url.dns.dnsURLContextFactory" />
+  </instance>
+
+  <!-- iiop:// -->
+  <instance component="com.peergreen.jndi.internal.builtin.jre.ObjectFactoryDelegate"
+            name="iiop-url-context-factory">
+    <property name="osgi.jndi.url.scheme" value="iiop" />
+    <property name="object.factory.classname" value="com.sun.jndi.url.iiop.iiopURLContextFactory" />
+  </instance>
+
+  <!-- iiopname:// -->
+  <instance component="com.peergreen.jndi.internal.builtin.jre.ObjectFactoryDelegate"
+            name="iiopname-url-context-factory">
+    <property name="osgi.jndi.url.scheme" value="iiopname" />
+    <property name="object.factory.classname" value="com.sun.jndi.url.iiopname.iiopnameURLContextFactory" />
+  </instance>
+
+  <!-- corbaname:// -->
+  <instance component="com.peergreen.jndi.internal.builtin.jre.ObjectFactoryDelegate"
+            name="corbaname-url-context-factory">
+    <property name="osgi.jndi.url.scheme" value="corbaname" />
+    <property name="object.factory.classname" value="com.sun.jndi.url.corbaname.corbanameURLContextFactory" />
+  </instance>
+
+  <!-- ldap:// -->
+  <instance component="com.peergreen.jndi.internal.builtin.jre.ObjectFactoryDelegate"
+            name="ldap-url-context-factory">
+    <property name="osgi.jndi.url.scheme" value="ldap" />
+    <property name="object.factory.classname" value="com.sun.jndi.url.ldap.ldapURLContextFactory" />
+  </instance>
+
+  <!-- ldaps:// -->
+  <instance component="com.peergreen.jndi.internal.builtin.jre.ObjectFactoryDelegate"
+            name="ldaps-url-context-factory">
+    <property name="osgi.jndi.url.scheme" value="ldaps" />
+    <property name="object.factory.classname" value="com.sun.jndi.url.ldaps.ldapsURLContextFactory" />
+  </instance>
+
+</ipojo>

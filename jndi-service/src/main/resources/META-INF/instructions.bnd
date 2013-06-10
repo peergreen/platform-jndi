@@ -1,0 +1,6 @@
+Embed-Dependency osgi-jndi-service-${jndi-spec.version}-spec;inline=true,\
+                 osgi-toolkit;inline=true,\
+                 osgi-toolkit-filter;inline=true
+
+# Exports the API
+-exportcontents org.osgi.service.jndi;version=${jndi-spec.version}

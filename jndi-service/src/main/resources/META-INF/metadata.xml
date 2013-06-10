@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="org.apache.felix.ipojo"
+       xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd" >
+
+  <!-- JNDI/OSGi implementation -->
+  <instance component="com.peergreen.jndi.internal.ContextManagerServiceFactory" />
+  <instance component="com.peergreen.jndi.internal.ProviderAdmin" />
+
+  <!-- Built-in JNDI Components -->
+  <instance component="com.peergreen.jndi.internal.builtin.BuiltinInitialContextFactoryBuilder" />
+  <instance component="com.peergreen.jndi.internal.builtin.OSGiUrlContextObjectFactory" />
+
+  <!-- Enable traditional model -->
+  <instance component="com.peergreen.jndi.internal.Startup" />
+
+</ipojo>
