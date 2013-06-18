@@ -1,8 +1,14 @@
 package com.peergreen.jndi.internal.finder;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.naming.InitialContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.spi.DirectoryManager;
@@ -54,29 +60,45 @@ public class ExecutionStackFinder implements IBundleContextFinder {
     /**
      * Default invokers.
      */
-    private static Map<Class<?>, String> DEFAULT_INVOKERS;
+    private static Map<Class<?>, Set<String>> DEFAULT_INVOKERS;
 
     static {
         // Define default invokers
-        Map<Class<?>, String> invokers = new Hashtable<Class<?>, String>();
+        Map<Class<?>, Set<String>> invokers = new Hashtable<>();
 
-        // InitialContext.<init>
-        invokers.put(InitialContext.class, "<init>");
-        // InitialDirContext.<init>
-        invokers.put(InitialDirContext.class, "<init>");
+        // All InitialContext public declared methods
+        Set<String> methods = getDeclaredPublicMethodsOf(InitialContext.class);
+        methods.add("<init>");
+
+        invokers.put(InitialContext.class, methods);
+
+        // All InitialDirContext public declared methods
+        Set<String> methods2 = getDeclaredPublicMethodsOf(InitialDirContext.class);
+        methods2.add("<init>");
+        invokers.put(InitialDirContext.class, methods2);
+
+
         // NamingManager.getObjectInstance
-        invokers.put(NamingManager.class, "getObjectInstance");
+        invokers.put(NamingManager.class, Collections.singleton("getObjectInstance"));
         // DirectoryManager.getObjectInstance
-        invokers.put(DirectoryManager.class, "getObjectInstance");
+        invokers.put(DirectoryManager.class, Collections.singleton("getObjectInstance"));
 
         // Fix the Map's content
         DEFAULT_INVOKERS = Collections.unmodifiableMap(invokers);
     }
 
+    private static Set<String> getDeclaredPublicMethodsOf(final Class<?> type) {
+        Set<String> names = new HashSet<>();
+        for (Method method : type.getMethods()) {
+            names.add(method.getName());
+        }
+        return names;
+    }
+
     /**
      * Invokers [Class]->[method-name] patterns.
      */
-    private Map<Class<?>, String> invokers;
+    private Map<Class<?>, Set<String>> invokers;
 
     /**
      * Thread to be searched.
@@ -88,7 +110,7 @@ public class ExecutionStackFinder implements IBundleContextFinder {
     }
 
     public ExecutionStackFinder(final Thread thread,
-                             final Map<Class<?>, String> invokers) {
+                             final Map<Class<?>, Set<String>> invokers) {
         this.thread = thread;
         this.invokers = invokers;
     }
@@ -109,6 +131,13 @@ public class ExecutionStackFinder implements IBundleContextFinder {
                 invokerFound = isInvoker(frame);
                 // do nothing else in the loop, and go to the next frame
             } else {
+
+                // It may be possible that we still have an invoker above the last invoker:
+                // Ignore it and move to the next frame
+                if (isInvoker(frame)) {
+                    continue;
+                }
+
                 // Analyze the current frame
                 ClassLoader loader = frame.getClazz().getClassLoader();
                 // Loader may be null because classes loaded from the System loader have a null ClassLoader
@@ -146,15 +175,9 @@ public class ExecutionStackFinder implements IBundleContextFinder {
         Class<?> currentClass = frame.getClazz();
         String currentMethodName = frame.getElement().getMethodName();
 
-        for(Map.Entry<Class<?>, String> entry : invokers.entrySet()) {
-            Class<?> searchedClass = entry.getKey();
-            String searchedMethodName = entry.getValue();
-
-            // We get a match if Class + method are matching
-            if (searchedClass.equals(currentClass) &&
-                searchedMethodName.equals(currentMethodName)) {
-                return true;
-            }
+        Set<String> methods = invokers.get(currentClass);
+        if (methods != null) {
+            return methods.contains(currentMethodName);
         }
 
         return false;

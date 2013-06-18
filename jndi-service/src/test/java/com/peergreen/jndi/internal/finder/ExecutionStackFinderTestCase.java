@@ -1,7 +1,9 @@
 package com.peergreen.jndi.internal.finder;
 
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 
 import org.osgi.framework.BundleContext;
 import com.peergreen.jndi.internal.IBundleContextFinder;
@@ -19,8 +21,9 @@ public class ExecutionStackFinderTestCase {
     @Test
     public void testFindImmediatelyAfterTheInvoker() throws Exception {
         // Configure the invoker matcher
-        Map<Class<?>, String> invokers = new Hashtable<Class<?>, String>();
-        invokers.put(ExecutionStackFinderTestCase.class, "testFindImmediatelyAfterTheInvoker");
+        Map<Class<?>, Set<String>> invokers = new Hashtable<>();
+        invokers.put(ExecutionStackFinderTestCase.class,
+                     Collections.singleton("testFindImmediatelyAfterTheInvoker"));
 
         ExecutionStackFinder finder = new ExecutionStackFinder(Thread.currentThread(), invokers) {
 
@@ -41,8 +44,9 @@ public class ExecutionStackFinderTestCase {
     @Test
     public void testFindTwoLevelsUpperAfterTheInvoker() throws Exception {
         // Configure the invoker matcher
-        Map<Class<?>, String> invokers = new Hashtable<Class<?>, String>();
-        invokers.put(ExecutionStackFinderTestCase.class, "testFindTwoLevelsUpperAfterTheInvoker");
+        Map<Class<?>, Set<String>> invokers = new Hashtable<>();
+        invokers.put(ExecutionStackFinderTestCase.class,
+                     Collections.singleton("testFindTwoLevelsUpperAfterTheInvoker"));
 
         ExecutionStackFinder finder = new ExecutionStackFinder(Thread.currentThread(), invokers) {
 
@@ -68,8 +72,9 @@ public class ExecutionStackFinderTestCase {
     @Test
     public void testNeverFindsAfterTheInvoker() throws Exception {
         // Configure the invoker matcher
-        Map<Class<?>, String> invokers = new Hashtable<Class<?>, String>();
-        invokers.put(ExecutionStackFinderTestCase.class, "testNeverFindsAfterTheInvoker");
+        Map<Class<?>, Set<String>> invokers = new Hashtable<>();
+        invokers.put(ExecutionStackFinderTestCase.class,
+                     Collections.singleton("testNeverFindsAfterTheInvoker"));
 
         ExecutionStackFinder finder = new ExecutionStackFinder(Thread.currentThread(), invokers) {
 
