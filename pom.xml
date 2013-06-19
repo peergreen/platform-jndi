@@ -29,6 +29,13 @@
     <module>jre-delegate</module>
   </modules>
 
+  <scm>
+    <connection>scm:git:https://forge.peergreen.com/git/git/platform/jndi.git</connection>
+    <developerConnection>scm:git:https://forge.peergreen.com/git/git/platform/jndi.git</developerConnection>
+    <url>https://forge.peergreen.com/git/summary/?r=platform/jndi.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <build>
 
     <pluginManagement>
@@ -143,5 +150,21 @@
 
     </dependencies>
   </dependencyManagement>
+
+
+  <repositories>
+    <repository>
+      <id>peergreen.release</id>
+      <name>Peergreen Release Nexus</name>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <url>https://forge.peergreen.com/nexus/content/repositories/releases/</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
 
 </project>
