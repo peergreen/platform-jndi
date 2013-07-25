@@ -86,6 +86,7 @@ public class UrlLookupsSupportContext<T extends Context> extends ForwardingConte
     public void bind(Name name, Object obj) throws NamingException {
         if (Utils.isUrlScheme(name)) {
             delegateToUrlContext(name.toString()).bind(name, obj);
+            return;
         }
         super.bind(name, obj);
     }
@@ -94,6 +95,7 @@ public class UrlLookupsSupportContext<T extends Context> extends ForwardingConte
     public void bind(String name, Object obj) throws NamingException {
         if (Utils.isUrlScheme(name)) {
             delegateToUrlContext(name).bind(name, obj);
+            return;
         }
         super.bind(name, obj);
     }
@@ -102,6 +104,7 @@ public class UrlLookupsSupportContext<T extends Context> extends ForwardingConte
     public void rebind(Name name, Object obj) throws NamingException {
         if (Utils.isUrlScheme(name)) {
             delegateToUrlContext(name.toString()).rebind(name, obj);
+            return;
         }
         super.rebind(name, obj);
     }
@@ -110,6 +113,7 @@ public class UrlLookupsSupportContext<T extends Context> extends ForwardingConte
     public void rebind(String name, Object obj) throws NamingException {
         if (Utils.isUrlScheme(name)) {
             delegateToUrlContext(name).rebind(name, obj);
+            return;
         }
         super.rebind(name, obj);
     }
@@ -118,6 +122,7 @@ public class UrlLookupsSupportContext<T extends Context> extends ForwardingConte
     public void unbind(Name name) throws NamingException {
         if (Utils.isUrlScheme(name)) {
             delegateToUrlContext(name.toString()).unbind(name);
+            return;
         }
         super.unbind(name);
     }
@@ -126,6 +131,7 @@ public class UrlLookupsSupportContext<T extends Context> extends ForwardingConte
     public void unbind(String name) throws NamingException {
         if (Utils.isUrlScheme(name)) {
             delegateToUrlContext(name).unbind(name);
+            return;
         }
         super.unbind(name);
     }
