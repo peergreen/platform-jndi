@@ -27,6 +27,12 @@ import com.peergreen.jndi.internal.util.Utils;
 @Provides
 public class ProviderAdmin implements JNDIProviderAdmin {
 
+    /**
+     * Marker only interface to ensure JNDI system is started.
+     */
+    @Requires
+    private Started started;
+
     @Requires
     private LogService logger;
 

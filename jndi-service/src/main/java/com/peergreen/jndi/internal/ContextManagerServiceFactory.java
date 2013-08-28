@@ -1,6 +1,7 @@
 package com.peergreen.jndi.internal;
 
 import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.Validate;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -17,6 +18,12 @@ import org.osgi.service.jndi.JNDIContextManager;
 public class ContextManagerServiceFactory implements ServiceFactory {
 
     private BundleContext bundleContext;
+
+    /**
+     * Marker only interface to ensure JNDI system is started.
+     */
+    @Requires
+    private Started started;
 
     public ContextManagerServiceFactory(BundleContext bundleContext) {
         this.bundleContext = bundleContext;

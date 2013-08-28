@@ -9,7 +9,9 @@ import javax.naming.spi.ObjectFactory;
 import javax.naming.spi.ObjectFactoryBuilder;
 
 import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
+import org.apache.felix.ipojo.annotations.ServiceController;
 import org.apache.felix.ipojo.annotations.Validate;
 import org.osgi.service.log.LogService;
 import com.peergreen.jndi.internal.traditional.TraditionalDirObjectFactory;
@@ -21,10 +23,14 @@ import com.peergreen.jndi.internal.traditional.TraditionalInitialContextFactory;
  * @author Guillaume Sauthier
  */
 @Component
-public class Startup {
+@Provides
+public class Startup implements Started {
 
     @Requires
     private LogService logger;
+
+    @ServiceController(false)
+    private boolean registered;
 
     @Validate
     public void start() {
@@ -51,5 +57,8 @@ public class Startup {
         } catch (NamingException e) {
             logger.log(LogService.LOG_WARNING, "Cannot register our JVM wide ObjectFactoryBuilder", e);
         }
+
+        // Publish the marker interface
+        registered = true;
     }
 }
